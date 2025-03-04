@@ -24,11 +24,11 @@ if (app.Environment.IsDevelopment())
 }
 
 
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "imageuploads")),
-    RequestPath = "/imageuploads"
-});
+//app.UseStaticFiles(new StaticFileOptions
+//{
+//    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "imageuploads")),
+//    RequestPath = "/imageuploads"
+//});
 
 //string storagePath = Path.Combine(Environment.GetEnvironmentVariable("HOME"), "site", "wwwroot", "books.json");
 //BookService bookService = new BookService(storagePath);
