@@ -2,6 +2,7 @@ using book_api;
 using book_api.Data;
 using book_api.Services;
 using Microsoft.Azure.Cosmos.Table;
+using Microsoft.Azure.Documents.SystemFunctions;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
@@ -47,7 +48,7 @@ app.MapGet("/all-books", () =>
     {
         var storageConnectionString = Environment.GetEnvironmentVariable("StorageSecrets");
 
-        if (storageConnectionString is null || storageConnectionString == "" || storageConnectionString.Length == 0)
+        if (storageConnectionString.IsNull())
         {
             return Results.Problem($"Connection String was Null");
         }
