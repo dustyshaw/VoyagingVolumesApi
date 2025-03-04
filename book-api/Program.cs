@@ -41,11 +41,11 @@ app.UseSwaggerUI();
 
 app.MapGet("/all-books", () =>
 {
-    var storageConnectionString = Environment.GetEnvironmentVariable("StorageSecrets") ?? throw new Exception("Couldn't get Storage Connection String");
 
     var tableName = "books";
     try
     { 
+        var storageConnectionString = Environment.GetEnvironmentVariable("StorageSecrets");
 
         Microsoft.Azure.Cosmos.Table.CloudStorageAccount storageAccount;
         storageAccount = Microsoft.Azure.Cosmos.Table.CloudStorageAccount.Parse(storageConnectionString);
