@@ -32,7 +32,8 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/imageuploads"
 });
 
-BookService bookService = new BookService("books.json");
+string storagePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "books.json");
+BookService bookService = new BookService(storagePath);
 
 app.MapGet("/all-books", async () =>
     await bookService.GetAllBooks()

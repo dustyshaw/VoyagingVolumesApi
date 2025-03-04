@@ -46,9 +46,17 @@ public class BookService : IBookService
 
     public async Task<List<Book>> GetAllBooks()
     {
+        try
+        {
+
         if (!File.Exists(FilePath))
         {
             File.Create(FilePath);
+        }
+        }
+        catch (Exception e)
+        {
+            throw new Exception($"Something went wrong getting all book data {e.Message.ToString()}");
         }
 
         var json = await System.IO.File.ReadAllTextAsync(FilePath);
