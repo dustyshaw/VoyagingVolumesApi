@@ -1,12 +1,5 @@
-﻿using System.IO;
-using System.Runtime.CompilerServices;
-using System.Text.Json;
-using System.Threading.RateLimiting;
-using System.Xml.Serialization;
-using Microsoft.AspNetCore.Http.HttpResults;
-using System.Net.Http;
+﻿using System.Text.Json;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
 
 
 namespace book_api.Services;

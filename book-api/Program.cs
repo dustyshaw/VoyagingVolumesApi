@@ -1,7 +1,5 @@
-
 using book_api;
 using book_api.Services;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
 
 
@@ -32,46 +30,67 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/imageuploads"
 });
 
-string storagePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "books.json");
-BookService bookService = new BookService(storagePath);
+//string storagePath = Path.Combine(Environment.GetEnvironmentVariable("HOME"), "site", "wwwroot", "books.json");
+//BookService bookService = new BookService(storagePath);
+
+//string storagePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "books.json");
+//BookService bookService = new BookService(storagePath);
 
 app.MapGet("/all-books", async () =>
-    await bookService.GetAllBooks()
+{
+    return "all-books !";
+}
+//await bookService.GetAllBooks()
 );
 
-app.MapGet("/get-book/{id}", async (int id) =>
-    await bookService.GetBook(id)
+app.MapGet("/get-book/{id}", (int id) =>
+{
+    return "get-book";
+}
+    //await bookService.GetBook(id)
 );
 
 app.MapPost("/add-book", async (Book book) =>
-    await bookService.AddBook(book)
+//await bookService.AddBook(book)
+{
+    return "add-books !";
+}
 );
 
 app.MapPatch("/update-book/{id}", async (int id, Book book) =>
-    await bookService.UpdateBook(id, book)
+   // await bookService.UpdateBook(id, book)
+    {
+    return "update-books !";
+}
 );
 
 app.MapDelete("/delete-book", async (int id) =>
-    await bookService.RemoveBook(id)
+    //await bookService.RemoveBook(id)
+    {
+    return "delete-books !";
+}
 );
 
 app.MapPost("/upload", async (IFormFile file) =>
 {
-    string uploadsFolder = "imageuploads";
-    if (!Directory.Exists(uploadsFolder))
-    {
-        Directory.CreateDirectory(uploadsFolder);
-    }
+    
+        return "delete-books !";
+    
+    //string uploadsFolder = "imageuploads";
+    //if (!Directory.Exists(uploadsFolder))
+    //{
+    //    Directory.CreateDirectory(uploadsFolder);
+    //}
 
-    var fileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
-    var filePath = Path.Combine(uploadsFolder, fileName);
+    //var fileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
+    //var filePath = Path.Combine(uploadsFolder, fileName);
 
-    using (var stream = new FileStream(filePath, FileMode.Create))
-    {
-        await file.CopyToAsync(stream);
-    }
+    //using (var stream = new FileStream(filePath, FileMode.Create))
+    //{
+    //    await file.CopyToAsync(stream);
+    //}
 
-    return Results.Ok(new { FilePath = filePath });
+    //return Results.Ok(new { FilePath = filePath });
 
 }).DisableAntiforgery();
 
