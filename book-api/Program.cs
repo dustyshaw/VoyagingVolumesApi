@@ -59,7 +59,9 @@ app.MapGet("/all-books", () =>
     }
     catch (Exception ex)
     {
-        throw new Exception($"Something went wrong fetching books from table, {ex.Message}");
+        //throw new Exception($"Something went wrong fetching books from table, {ex.Message}");
+        return Results.Problem($"Error fetching data from Table Storage: {ex.Message}");
+
     }
     //return "all-books !";
 }
