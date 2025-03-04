@@ -84,22 +84,18 @@ public class BookService : IBookService
             return false;
         }
         var json = await System.IO.File.ReadAllTextAsync(FilePath);
-        var books = JsonSerializer.Deserialize<List<Book>>(json); // Assuming Book is your model class
+        var books = JsonSerializer.Deserialize<List<Book>>(json);
 
-        // Find the book by ID
         var bookToRemove = books?.FirstOrDefault(b => b.id == id);
         if (bookToRemove == null)
         {
-            return false; // Book not found
+            return false; 
         }
 
-        // Remove the book
         books?.Remove(bookToRemove);
 
-        // Serialize the updated list back to JSON
         var updatedJson = JsonSerializer.Serialize(books);
 
-        // Write the updated JSON back to the file
         await System.IO.File.WriteAllTextAsync(FilePath, updatedJson);
 
         return true;
