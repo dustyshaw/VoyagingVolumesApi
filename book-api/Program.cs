@@ -44,8 +44,13 @@ app.MapGet("/all-books", () =>
 
     var tableName = "books";
     try
-    { 
+    {
         var storageConnectionString = Environment.GetEnvironmentVariable("StorageSecrets");
+
+        if (storageConnectionString is null || storageConnectionString == "" || storageConnectionString.Length == 0)
+        {
+            return Results.Problem($"Connection String was Null");
+        }
 
         Microsoft.Azure.Cosmos.Table.CloudStorageAccount storageAccount;
         storageAccount = Microsoft.Azure.Cosmos.Table.CloudStorageAccount.Parse(storageConnectionString);
@@ -73,7 +78,7 @@ app.MapGet("/get-book/{id}", (int id) =>
 {
     return "get-book";
 }
-    //await bookService.GetBook(id)
+//await bookService.GetBook(id)
 );
 
 app.MapPost("/add-book", async (Book book) =>
@@ -84,24 +89,24 @@ app.MapPost("/add-book", async (Book book) =>
 );
 
 app.MapPatch("/update-book/{id}", async (int id, Book book) =>
-   // await bookService.UpdateBook(id, book)
+// await bookService.UpdateBook(id, book)
     {
-    return "update-books !";
-}
+        return "update-books !";
+    }
 );
 
 app.MapDelete("/delete-book", async (int id) =>
-    //await bookService.RemoveBook(id)
+//await bookService.RemoveBook(id)
     {
-    return "delete-books !";
-}
+        return "delete-books !";
+    }
 );
 
 app.MapPost("/upload", async (IFormFile file) =>
 {
-    
-        return "delete-books !";
-    
+
+    return "delete-books !";
+
     //string uploadsFolder = "imageuploads";
     //if (!Directory.Exists(uploadsFolder))
     //{
