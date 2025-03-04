@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "title": "East of Eden",
+    "author": "John Steinbeck",
+    "isbn": "9780142000653",
+    "image_url": "https://m.media-amazon.com/images/I/714iJhKi0QL._AC_UF1000,1000_QL80_.jpg",
+    "price": 2.99
+  },
+  {
+    "id": 2,
+    "title": "To Kill a Mockingbird",
+    "author": "Harper Lee",
+    "isbn": "9780060935467",
+    "image_url": "https://m.media-amazon.com/images/I/81aY1lxk+9L._AC_UF1000,1000_QL80_.jpg",
+    "price": 2.99
+  },
+  {
+    "id": 3,
+    "title": "1984",
+    "author": "George Orwell",
+    "isbn": "9780451524935",
+    "image_url": "https://m.media-amazon.com/images/I/61NAx5pd6XL._AC_UF1000,1000_QL80_.jpg",
+    "price": 2.99
+  }
+]

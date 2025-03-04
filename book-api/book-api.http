@@ -1,0 +1,47 @@
+@book_api_HostAddress = http://localhost:5225
+
+GET {{book_api_HostAddress}}/all-books
+Accept: application/json
+
+###
+
+GET http://localhost:5225/get-book/1
+
+
+### Get All Books
+GET http://localhost:5225/all-books
+Accept: application/json
+
+### Get a Specific Book by ID
+GET http://localhost:5225/get-book/1
+Accept: application/json
+
+### Add a New Book
+POST http://localhost:5225/add-book
+Content-Type: application/json
+
+{
+    "title": "New Book Title",
+    "author": "Author Name",
+    "isbn": "1234567890123",
+    "image_url": "https://m.media-amazon.com/images/I/81aY1lxk+9L._AC_UF1000,1000_QL80_.jpg",
+    "price":3,
+    "desc":"New description"
+}
+
+### Update an Existing Book
+PATCH http://localhost:5225/update-book/7
+Content-Type: application/json
+
+{
+    "id": 7,
+    "title": "Updated Book Title2",
+    "author": "Updated Author Name",
+    "isbn": "123-4567890123",
+    "image_url": "https://m.media-amazon.com/images/I/81aY1lxk+9L._AC_UF1000,1000_QL80_.jpg",
+    "price":3,
+    "desc":"new updated description"
+}
+
+### Delete a Book by ID
+DELETE http://localhost:5225/delete-book?id=1
