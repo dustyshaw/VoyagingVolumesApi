@@ -39,22 +39,28 @@ app.UseSwaggerUI();
 //string storagePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "books.json");
 //BookService bookService = new BookService(storagePath);
 
-app.MapGet("/all-books", async () =>
+app.MapGet("/all-books", () =>
 {
     var storageConnectionString = Environment.GetEnvironmentVariable("StorageSecrets") ?? throw new Exception("Couldn't get Storage Connection String");
 
     var tableName = "books";
+    try
+    { 
 
-    Microsoft.Azure.Cosmos.Table.CloudStorageAccount storageAccount;
-    storageAccount = Microsoft.Azure.Cosmos.Table.CloudStorageAccount.Parse(storageConnectionString);
+        Microsoft.Azure.Cosmos.Table.CloudStorageAccount storageAccount;
+        storageAccount = Microsoft.Azure.Cosmos.Table.CloudStorageAccount.Parse(storageConnectionString);
 
-    Microsoft.Azure.Cosmos.Table.CloudTableClient tableClient = storageAccount.CreateCloudTableClient(new TableClientConfiguration());
-    Microsoft.Azure.Cosmos.Table.CloudTable table = tableClient.GetTableReference(tableName);
+        Microsoft.Azure.Cosmos.Table.CloudTableClient tableClient = storageAccount.CreateCloudTableClient(new TableClientConfiguration());
+        Microsoft.Azure.Cosmos.Table.CloudTable table = tableClient.GetTableReference(tableName);
 
-    var entities = table.ExecuteQuery(new Microsoft.Azure.Cosmos.Table.TableQuery<BookEntity>()).ToList();
+        var entities = table.ExecuteQuery(new Microsoft.Azure.Cosmos.Table.TableQuery<BookEntity>()).ToList();
 
-    return Results.Ok(entities); // Return the list of books
-
+        return Results.Ok(entities); // Return the list of books
+    }
+    catch (Exception ex)
+    {
+        throw new Exception($"Something went wrong fetching books from table, {ex.Message}");
+    }
     //return "all-books !";
 }
 //await bookService.GetAllBooks()
