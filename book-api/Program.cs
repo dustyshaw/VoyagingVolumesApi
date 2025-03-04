@@ -69,7 +69,7 @@ app.MapGet("/all-books", () =>
             });
         }
 
-        return booksFromApi;
+        return Results.Ok(booksFromApi);
 
        //CloudStorageAccount storageAccount;
        // storageAccount = CloudStorageAccount.Parse(storageConnectionString);
