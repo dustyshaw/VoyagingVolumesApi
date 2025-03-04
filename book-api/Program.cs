@@ -1,6 +1,10 @@
 using book_api;
+using book_api.Data;
 using book_api.Services;
+using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Table;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,10 +42,25 @@ if (app.Environment.IsDevelopment())
 
 app.MapGet("/all-books", async () =>
 {
-    return "all-books !";
+    var storageConnectionString = Environment.GetEnvironmentVariable("StorageSecrets") ?? throw new Exception("Couldn't get Storage Connection String");
+
+    var tableName = "books";
+
+    Microsoft.Azure.Cosmos.Table.CloudStorageAccount storageAccount;
+    storageAccount = Microsoft.Azure.Cosmos.Table.CloudStorageAccount.Parse(storageConnectionString);
+
+    Microsoft.Azure.Cosmos.Table.CloudTableClient tableClient = storageAccount.CreateCloudTableClient(new TableClientConfiguration());
+    Microsoft.Azure.Cosmos.Table.CloudTable table = tableClient.GetTableReference(tableName);
+
+    var entities = table.ExecuteQuery(new Microsoft.Azure.Cosmos.Table.TableQuery<BookEntity>()).ToList();
+
+    return Results.Ok(entities); // Return the list of books
+
+    //return "all-books !";
 }
 //await bookService.GetAllBooks()
 );
+
 
 app.MapGet("/get-book/{id}", (int id) =>
 {
