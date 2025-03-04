@@ -1,3 +1,4 @@
+using Azure.Data.Tables;
 using book_api;
 using book_api.Data;
 using book_api.Services;
@@ -6,6 +7,8 @@ using Microsoft.Azure.Documents.SystemFunctions;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
+using CloudStorageAccount = Microsoft.WindowsAzure.Storage.CloudStorageAccount;
+using CloudTableClient = Microsoft.WindowsAzure.Storage.Table.CloudTableClient;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -53,15 +56,30 @@ app.MapGet("/all-books", () =>
             return Results.Problem($"Connection String was Null");
         }
 
-        Microsoft.Azure.Cosmos.Table.CloudStorageAccount storageAccount;
-        storageAccount = Microsoft.Azure.Cosmos.Table.CloudStorageAccount.Parse(storageConnectionString);
+        TableClient books = new(storageConnectionString, tableName);
 
-        Microsoft.Azure.Cosmos.Table.CloudTableClient tableClient = storageAccount.CreateCloudTableClient(new TableClientConfiguration());
-        Microsoft.Azure.Cosmos.Table.CloudTable table = tableClient.GetTableReference(tableName);
+        List<Book> booksFromApi = new();
 
-        var entities = table.ExecuteQuery(new Microsoft.Azure.Cosmos.Table.TableQuery<BookEntity>()).ToList();
+        foreach (var b in books.Query<Azure.Data.Tables.TableEntity>())
+        {
+            booksFromApi.Add(new Book()
+            {
+                title = b.PartitionKey,
+                author = b.RowKey,
+            });
+        }
 
-        return Results.Ok(entities); // Return the list of books
+        return booksFromApi;
+
+       //CloudStorageAccount storageAccount;
+       // storageAccount = CloudStorageAccount.Parse(storageConnectionString);
+
+       // CloudTableClient tableClient = storageAccount.CreateCloudTableClient(new TableClientConfiguration());
+       // Microsoft.WindowsAzure.Storage.Table.CloudTable table = tableClient.GetTableReference(tableName);
+
+       // var entities = table.ExecuteQuerySegmentedAsync(new TableQuery<BookEntity>()).ToList();
+
+       // return Results.Ok(entities); // Return the list of books
     }
     catch (Exception ex)
     {
