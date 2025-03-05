@@ -43,7 +43,7 @@ app.UseSwaggerUI();
 //string storagePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "books.json");
 //BookService bookService = new BookService(storagePath);
 
-app.MapGet("/all-books", () =>
+app.MapGet("/all-books", async () =>
 {
 
     var tableName = "books";
@@ -60,7 +60,7 @@ app.MapGet("/all-books", () =>
 
         List<Book> booksFromApi = new();
 
-        foreach (var b in books.Query<Azure.Data.Tables.TableEntity>())
+        await foreach (var b in books.QueryAsync<Azure.Data.Tables.TableEntity>())
         {
             booksFromApi.Add(new Book()
             {
